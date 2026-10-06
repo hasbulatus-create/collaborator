@@ -25,6 +25,12 @@ function auth(req, res, next) {
   if (!token) return res.status(401).json({ error: 'Не авторизован' });
   try {
     req.user = jwt.verify(token, JWT_SECRET);
+    /* пользователь из старой сессии мог пропасть из базы (сброс диска на Render) */
+    const exists = db.prepare('SELECT id FROM users WHERE id = ?').get(req.user.id);
+    if (!exists) {
+      res.clearCookie('token');
+      return res.status(401).json({ error: 'Войдите заново' });
+    }
     next();
   } catch {
     res.status(401).json({ error: 'Сессия истекла' });
@@ -229,6 +235,7 @@ io.use((socket, next) => {
         .split('; ')
         .find(c => c.startsWith('token='))?.slice(6);
     socket.user = jwt.verify(token, JWT_SECRET);
+    if (!db.prepare('SELECT id FROM users WHERE id = ?').get(socket.user.id)) throw new Error('no user');
     next();
   } catch {
     next(new Error('unauthorized'));
