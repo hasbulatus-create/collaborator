@@ -260,7 +260,7 @@ io.on('connection', (socket) => {
     const nextLen = (content || '').length;
     const delta = Math.max(0, nextLen - prevLen);
 
-    db.prepare('UPDATE documents SET content = ?, updated_at = datetime("now"), updated_by = ? WHERE project_id = ?')
+    db.prepare(`UPDATE documents SET content = ?, updated_at = datetime('now'), updated_by = ? WHERE project_id = ?`)
       .run(content || '', socket.user.id, pid);
 
     /* Учёт вклада */
@@ -268,10 +268,10 @@ io.on('connection', (socket) => {
       const existing = db.prepare('SELECT * FROM contributions WHERE project_id = ? AND user_id = ?')
         .get(pid, socket.user.id);
       if (existing) {
-        db.prepare('UPDATE contributions SET edits = edits + 1, chars_added = chars_added + ?, last_edit = datetime("now") WHERE id = ?')
+        db.prepare(`UPDATE contributions SET edits = edits + 1, chars_added = chars_added + ?, last_edit = datetime('now') WHERE id = ?`)
           .run(delta, existing.id);
       } else {
-        db.prepare('INSERT INTO contributions (project_id, user_id, edits, chars_added, last_edit) VALUES (?,?,?,?,datetime("now"))')
+        db.prepare(`INSERT INTO contributions (project_id, user_id, edits, chars_added, last_edit) VALUES (?,?,?,?,datetime('now'))`)
           .run(pid, socket.user.id, 1, delta);
       }
     }
@@ -318,6 +318,15 @@ io.on('connection', (socket) => {
       });
     }
   });
+});
+
+process.on('uncaughtException', e => console.error('uncaught:', e));
+process.on('unhandledRejection', e => console.error('unhandled:', e));
+
+/* JSON-ответ вместо HTML при ошибке */
+app.use((err, req, res, next) => {
+  console.error(err);
+  res.status(500).json({ error: 'Ошибка сервера: ' + err.message });
 });
 
 server.listen(PORT, () => {
