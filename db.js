@@ -5,7 +5,7 @@ const dbPath = process.env.DB_PATH || path.join(__dirname, 'collaborator.db');
 const db = new DatabaseSync(dbPath);
 
 // Включаем поддержку внешних ключей
-db.exec(`PRAGMA foreign_keys = ON;`);
+db.exec(`PRAGMA foreign_keys = OFF;`);
 
 // Создаём таблицы
 db.exec(`
