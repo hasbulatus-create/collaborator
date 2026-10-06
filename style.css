@@ -1,0 +1,171 @@
+:root {
+  --bg: #f4f5fb;
+  --card: #ffffff;
+  --primary: #5b4bdb;
+  --primary-dark: #4436b8;
+  --accent: #7c69f5;
+  --text: #1f2233;
+  --muted: #6c7192;
+  --border: #e2e4f0;
+  --danger: #d64545;
+  --success: #2e9e5b;
+  --radius: 14px;
+  --shadow: 0 6px 20px rgba(60, 60, 120, 0.08);
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+button { font: inherit; cursor: pointer; }
+a { color: var(--primary); }
+
+/* ---------- Auth ---------- */
+.auth-wrap {
+  max-width: 420px;
+  margin: 6vh auto;
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 32px;
+}
+.auth-wrap h1 {
+  margin: 0 0 4px;
+  font-size: 24px;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.auth-wrap p.sub { margin: 0 0 24px; color: var(--muted); font-size: 14px; }
+
+label { display: block; font-size: 13px; color: var(--muted); margin: 12px 0 4px; }
+input, textarea, select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font: inherit;
+  background: #fbfbff;
+  transition: border-color .15s ease;
+}
+input:focus, textarea:focus, select:focus { outline: none; border-color: var(--accent); }
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  padding: 10px 16px; border-radius: 10px; border: none;
+  background: var(--primary); color: #fff; font-weight: 600;
+  transition: background .15s ease, transform .1s ease;
+}
+.btn:hover { background: var(--primary-dark); }
+.btn:active { transform: translateY(1px); }
+.btn.ghost { background: transparent; color: var(--primary); border: 1px solid var(--border); }
+.btn.danger { background: var(--danger); }
+.btn.full { width: 100%; margin-top: 20px; }
+.btn.small { padding: 6px 10px; font-size: 13px; }
+
+.msg-error { color: var(--danger); font-size: 13px; margin-top: 10px; }
+.msg-info { color: var(--success); font-size: 13px; margin-top: 10px; }
+
+.switch-line { margin-top: 16px; font-size: 13px; color: var(--muted); text-align: center; }
+.switch-line button { background: none; border: none; color: var(--primary); text-decoration: underline; padding: 0; }
+
+/* ---------- Layout ---------- */
+.topbar {
+  background: #fff;
+  border-bottom: 1px solid var(--border);
+  padding: 12px 24px;
+  display: flex; align-items: center; justify-content: space-between;
+  position: sticky; top: 0; z-index: 10;
+}
+.topbar .brand {
+  font-weight: 800; letter-spacing: -.3px; font-size: 18px;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.topbar .user { font-size: 14px; color: var(--muted); display: flex; align-items: center; gap: 12px; }
+
+.container { max-width: 1100px; margin: 24px auto; padding: 0 20px; }
+
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+
+.card {
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 18px;
+}
+.card h3 { margin: 0 0 6px; font-size: 17px; }
+.card .meta { font-size: 12px; color: var(--muted); margin-bottom: 10px; }
+.card .actions { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+
+.section-title { display: flex; align-items: center; justify-content: space-between; margin: 8px 0 16px; }
+.section-title h2 { margin: 0; font-size: 20px; }
+
+/* ---------- Project view ---------- */
+.project-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; flex-wrap: wrap; margin-bottom: 16px; }
+.project-header h1 { margin: 0 0 4px; font-size: 24px; }
+.project-header .desc { color: var(--muted); font-size: 14px; max-width: 620px; }
+
+.tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--border); margin-bottom: 16px; }
+.tabs button {
+  border: none; background: none; padding: 10px 14px;
+  color: var(--muted); font-weight: 600; border-bottom: 3px solid transparent;
+}
+.tabs button.active { color: var(--primary); border-bottom-color: var(--primary); }
+
+.workspace { display: grid; grid-template-columns: 1fr 340px; gap: 20px; }
+@media (max-width: 900px) { .workspace { grid-template-columns: 1fr; } }
+
+.editor {
+  width: 100%; min-height: 480px; resize: vertical;
+  font-family: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+  font-size: 14px; line-height: 1.55;
+  padding: 16px; border-radius: 12px; background: #fff;
+  border: 1px solid var(--border);
+}
+
+.chat-box { display: flex; flex-direction: column; height: 500px; }
+.chat-messages { flex: 1; overflow-y: auto; padding: 4px; }
+.chat-msg { margin-bottom: 10px; font-size: 14px; }
+.chat-msg .who { font-weight: 700; color: var(--primary); margin-right: 6px; }
+.chat-msg .when { color: var(--muted); font-size: 11px; margin-left: 6px; }
+.chat-form { display: flex; gap: 8px; margin-top: 10px; }
+.chat-form input { flex: 1; }
+
+.list { display: flex; flex-direction: column; gap: 8px; }
+.list-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 12px; border: 1px solid var(--border); border-radius: 10px; background: #fbfbff;
+  font-size: 14px;
+}
+.list-row .role { color: var(--muted); font-size: 12px; }
+
+.badge {
+  display: inline-block; padding: 2px 8px; border-radius: 999px;
+  font-size: 11px; font-weight: 700; background: #efeafe; color: var(--primary);
+}
+.badge.online { background: #e4f7ea; color: var(--success); }
+
+.progress-bar {
+  height: 8px; background: #eee; border-radius: 6px; overflow: hidden; margin-top: 4px;
+}
+.progress-bar span { display: block; height: 100%; background: linear-gradient(90deg, var(--primary), var(--accent)); }
+
+.hint { font-size: 12px; color: var(--muted); margin-top: 6px; }
+.modal-backdrop {
+  position: fixed; inset: 0; background: rgba(20,20,40,0.4);
+  display: flex; align-items: center; justify-content: center; z-index: 50;
+}
+.modal {
+  background: #fff; border-radius: var(--radius); padding: 22px;
+  width: min(480px, 92vw); box-shadow: 0 20px 60px rgba(0,0,0,.25);
+}
+.modal h3 { margin-top: 0; }
+.modal .actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 16px; }
+
+.empty { text-align: center; padding: 40px 20px; color: var(--muted); }
